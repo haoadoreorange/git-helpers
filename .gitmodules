@@ -1,0 +1,3 @@
+[submodule "hooks/git-good-commit"]
+	path = hooks/git-good-commit
+	url = https://github.com/tommarshall/git-good-commit.git
