@@ -11,6 +11,7 @@ fi
 
 for file in "$INSTALL_DIR"/hooks/*; do
     if [ -f "$file" ]; then
+        chmod +x "$(realpath "$file")"
         sudo ln -s "$file" /usr/share/git-core/templates/hooks/
         echo "Softlink git hook $file to /usr/share/git-core/templates/hooks/ successfully"
     fi
