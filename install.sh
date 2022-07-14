@@ -10,8 +10,8 @@ if [ ! -d "$INSTALL_DIR" ]; then
 fi
 
 for file in "$INSTALL_DIR"/hooks/*; do
-    if [ -f "$INSTALL_DIR"/hooks/"$file" ]; then
-        sudo ln -s "$INSTALL_DIR"/hooks/"$file" /usr/share/git-core/templates/hooks/
+    if [ -f "$file" ]; then
+        sudo ln -s "$file" /usr/share/git-core/templates/hooks/
         echo "Softlink git hook $file to /usr/share/git-core/templates/hooks/ successfully"
     fi
 done

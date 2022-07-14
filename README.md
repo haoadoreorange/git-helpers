@@ -35,3 +35,7 @@ multiple times
 ##### Delete remote branches with prefix (example)
 
 `git branch -a | grep branch-prefix | sed 's|remotes/origin/||' | xargs git push -d origin`
+
+### hooks installation
+
+`curl -L https://raw.githubusercontent.com/haoadoreorange/git-helpers/main/install.sh | sh`
