@@ -16,13 +16,14 @@ else
     )
 fi
 
-set +e
 for file in "$INSTALL_DIR"/hooks/*; do
     if [ -f "$file" ]; then
         chmod +x "$(realpath "$file")"
-        sudo ln -s "$file" /usr/share/git-core/templates/hooks/ &&
-            echo -e "${GREEN}Softlink git hook $file to /usr/share/git-core/templates/hooks/ successfully${NC}"
+        {
+            sudo ln -s "$file" /usr/share/git-core/templates/hooks/ &&
+                echo -e "${GREEN}Softlink git hook $file to /usr/share/git-core/templates/hooks/ successfully${NC}"
+        } || failed=true
     fi
 done
 
-[ "$?" == "0" ] && echo -e "${GREEN}git-helpers hooks installed succesfully${NC}"
+[ "${failed-}" != "true" ] && echo -e "${GREEN}git-helpers hooks installed succesfully${NC}"
