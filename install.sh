@@ -1,29 +1,24 @@
-#!/bin/bash
-set -euo pipefail
+#!/bin/sh
+set -eu
 
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
-INSTALL_DIR="${1:-"$HOME"/.git-helpers}"
+INSTALL_DIR="$(realpath "${1:-$HOME/.git-helpers}")"
 
-if [ ! -d "$INSTALL_DIR" ]; then
-    mkdir -p "$INSTALL_DIR"
+if [ ! -d "$INSTALL_DIR"/hooks ]; then
+    printf "${GREEN}Download git-helpers to %s${NC}\n" "$INSTALL_DIR"
     git clone --recurse-submodules https://github.com/haoadoreorange/git-helpers "$INSTALL_DIR"
-    echo -e "${GREEN}Download git-helpers to $INSTALL_DIR successfully${NC}"
 else
-    (
-        cd "$INSTALL_DIR"
-        git pull
-    )
+    cd "$INSTALL_DIR"
+    git pull
 fi
 
 for file in "$INSTALL_DIR"/hooks/*; do
     if [ -f "$file" ]; then
-        chmod +x "$(realpath "$file")"
-        {
-            sudo ln -s "$file" /usr/share/git-core/templates/hooks/ &&
-                echo -e "${GREEN}Softlink git hook $file to /usr/share/git-core/templates/hooks/ successfully${NC}"
-        } || failed=true
+        printf "${GREEN}Softlink git hook '%s' to /usr/share/git-core/templates/hooks/${NC}\n" "$(basename "$file")"
+        chmod +x "$file"
+        sudo ln -s "$file" /usr/share/git-core/templates/hooks/ || failed=true
     fi
 done
 
-[ "${failed-}" != "true" ] && echo -e "${GREEN}git-helpers hooks installed succesfully${NC}"
+[ "${failed-}" != "true" ] && printf "${GREEN}git-helpers hooks installed succesfully${NC}\n"

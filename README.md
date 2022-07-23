@@ -17,6 +17,10 @@ name="Foo Baz"
 email="foo@mail.com"
 ```
 
+### hooks installation
+
+`curl -L https://raw.githubusercontent.com/haoadoreorange/git-helpers/main/install.sh | sh`
+
 ### commands
 
 ##### Rewrite all the author signature to the current signature. WARNING: it rewrites the whole git history (remove all `Sign-off-by` lines and re-sign), make sure you understand what you're doing.
@@ -35,7 +39,3 @@ multiple times
 ##### Delete remote branches with prefix (example)
 
 `git branch -a | grep branch-prefix | sed 's|remotes/origin/||' | xargs git push -d origin`
-
-### hooks installation
-
-`curl -L https://raw.githubusercontent.com/haoadoreorange/git-helpers/main/install.sh | bash`
