@@ -2,6 +2,7 @@
 set -eu
 
 GREEN='\033[0;32m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
 INSTALL_DIR="$(realpath "${1:-$HOME/.git-helpers}")"
 
@@ -16,9 +17,14 @@ fi
 
 for file in "$INSTALL_DIR"/hooks/*; do
     if [ -f "$file" ]; then
-        printf "${GREEN}Softlinking git hook '%s' to /usr/share/git-core/templates/hooks/${NC}\n" "$(basename "$file")"
-        chmod +x "$file"
-        sudo ln -s "$file" /usr/share/git-core/templates/hooks/ || failed=true
+        if [ ! -f /usr/share/git-core/templates/hooks/"$(basename "$file")" ]; then
+            printf "${GREEN}Softlinking git hook '%s' to /usr/share/git-core/templates/hooks/${NC}\n" "$(basename "$file")"
+            chmod +x "$file"
+            sudo ln -s "$file" /usr/share/git-core/templates/hooks/
+        else
+            printf "${RED}ERROR: git hook '%s' already exists in /usr/share/git-core/templates/hooks/${NC}\n" "$(basename "$file")"
+            failed=true
+        fi
     fi
 done
 
