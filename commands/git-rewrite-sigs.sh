@@ -1,5 +1,5 @@
-#!/bin/bash
-set -euo pipefail
+#!/bin/sh
+set -eu
 
 # Inspired by https://www.git-tower.com/learn/git/faq/change-author-name-email
 FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter "sed /^Signed-off-by:/d"

@@ -15,14 +15,15 @@ else
     git pull
 fi
 
+git_hooks=/usr/share/git-core/templates/hooks
 for file in "$INSTALL_DIR"/hooks/*; do
     if [ -f "$file" ]; then
-        if [ ! -f /usr/share/git-core/templates/hooks/"$(basename "$file")" ]; then
-            printf "${GREEN}Softlinking git hook '%s' to /usr/share/git-core/templates/hooks/${NC}\n" "$(basename "$file")"
+        if [ ! -f "$git_hooks/$(basename "$file")" ]; then
+            printf "${GREEN}Softlinking git hook '%s' to %s${NC}\n" "$(basename "$file")" "$git_hooks"
             chmod +x "$file"
-            sudo ln -s "$file" /usr/share/git-core/templates/hooks/
+            sudo ln -s "$file" "$git_hooks"/
         else
-            printf "${RED}ERROR: git hook '%s' already exists in /usr/share/git-core/templates/hooks/${NC}\n" "$(basename "$file")"
+            printf "${RED}ERROR: git hook '%s' already exists in %s${NC}\n" "$(basename "$file")" "$git_hooks"
             failed=true
         fi
     fi
