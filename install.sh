@@ -35,6 +35,7 @@ if [ ! -f "$local_bin"/git-sig ]; then
     printf "${GREEN}Softlinking command git-sig to %s${NC}\n" "$local_bin"
     chmod +x "$INSTALL_DIR"/commands/git-sig.sh
     ln -s "$INSTALL_DIR"/commands/git-sig.sh "$local_bin"/git-sig
+    echo "You might need to add ~/.local/bin/ to PATH to use it"
 else
     printf "${RED}ERROR: git-sig already exists in %s${NC}\n" "$local_bin"
     failed=true
