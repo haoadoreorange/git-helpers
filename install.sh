@@ -30,6 +30,7 @@ for file in "$INSTALL_DIR"/hooks/*; do
 done
 
 local_bin="$HOME"/.local/bin
+mkdir -p "$local_bin"
 if [ ! -f "$local_bin"/git-sig ]; then
     printf "${GREEN}Softlinking command git-sig to %s${NC}\n" "$local_bin"
     chmod +x "$INSTALL_DIR"/commands/git-sig.sh
