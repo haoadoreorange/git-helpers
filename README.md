@@ -17,6 +17,9 @@ name="Foo Baz"
 email="foo@mail.com"
 ```
 
+or run the provided command `git sig --init "Foo Baz" "foo@mail.com"` in a git
+repo (See [below](#commands)).
+
 ### hooks installation
 
 `curl -L https://raw.githubusercontent.com/haoadoreorange/git-helpers/main/install.sh | sh`
@@ -26,6 +29,30 @@ email="foo@mail.com"
 ##### Rewrite all the author signature to the current signature. WARNING: it rewrites the whole git history (remove all `Sign-off-by` lines and re-sign), make sure you understand what you're doing.
 
 `commands/git-write-sigs.sh`
+
+##### Changing quickly between different git signatures
+
+`commands/git-sig.sh`
+
+Beside the hooks, the install script also installs a git command `git-sig`. The
+simpliest use is changing git name & email with 1 command
+`git sig "Foo Baz" "foo@mail.com"`. When run with `--init`, it creates a `.sig`
+file in the git repo for the `pre-commit` hook above. It also allows changing
+quickly between different git signatures "profile" using a `~/.sig.profile`
+file.
+
+```ini
+[default]
+    name="Foo Baz"
+    email="foo@mail.com"
+
+[school]
+    name="Foo Baz"
+    email="foo@school.com"
+```
+
+and then run `git sig profile-name`. Running without argument will use the
+default profile.
 
 ##### Delete remote tags.
 

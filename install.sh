@@ -29,4 +29,14 @@ for file in "$INSTALL_DIR"/hooks/*; do
     fi
 done
 
-[ "${failed-}" != "true" ] && printf "${GREEN}git-helpers hooks installed succesfully${NC}\n"
+local_bin="$HOME"/.local/bin
+if [ ! -f "$local_bin"/git-sig ]; then
+    printf "${GREEN}Softlinking command git-sig to %s${NC}\n" "$local_bin"
+    chmod +x "$INSTALL_DIR"/commands/git-sig.sh
+    ln -s "$INSTALL_DIR"/commands/git-sig.sh "$local_bin"/git-sig
+else
+    printf "${RED}ERROR: git-sig already exists in %s${NC}\n" "$local_bin"
+    failed=true
+fi
+
+[ "${failed-}" != "true" ] && printf "${GREEN}git-helpers hooks & commands installed succesfully${NC}\n"
