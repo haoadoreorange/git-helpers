@@ -6,7 +6,7 @@ if [ -f .sig ]; then
     NC='\033[0m' # No Color
 
     sig_tmp=.sig.tmp
-    # Remove space around =
+    # Remove space around = & source to get the required name & email
     sed 's/ *= */=/g' .sig >"$sig_tmp"
     . ./"$sig_tmp"
     rm "$sig_tmp"

@@ -6,9 +6,11 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
+# configure git signature
 git_sig() {
     name="${1:?}"
     email="${2:?}"
+    # if init flag = true then add .sig file for commit hook
     if [ "${init-}" = "true" ]; then
         if [ -d .git ]; then
             echo "name='$name'" >.sig
@@ -38,14 +40,15 @@ elif [ -d .git ] && [ ! -f .sig ]; then
     printf "${YELLOW}Learn more at https://github.com/haoadoreorange/git-helpers${NC}\n"
 fi
 
+# If there is only 1 argument, then it's a profile
 if [ -z "${2-}" ]; then
     profile="${1:-default}"
-    printf "Configure git signature with %s profile" "$profile"
+    printf "Configure git signature with %s profile\n" "$profile"
     sig_tmp=.sig.tmp
-    # Parse ini file, inspired by https://stackoverflow.com/questions/6318809/how-do-i-grab-an-ini-value-within-a-shell-script
+    # Parse profile file, inspired by https://stackoverflow.com/questions/6318809/how-do-i-grab-an-ini-value-within-a-shell-script
     sig_tmp_content="$(grep -A2 "\[$profile\]" "$HOME"/.sig.profile | grep '=' | sed 's/ *= */=/g')"
     if [ -z "$sig_tmp_content" ]; then
-        printf "\n${RED}%s profile not found in .sig.profile${NC}\n" "$profile"
+        printf "${RED}%s profile not found in .sig.profile${NC}\n" "$profile"
         exit 1
     fi
     echo "$sig_tmp_content" >"$sig_tmp"
