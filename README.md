@@ -66,3 +66,30 @@ multiple times
 ##### Delete remote branches with prefix (example)
 
 `git branch -a | grep branch-prefix | sed 's|remotes/origin/||' | xargs git push -d origin`
+
+##### Split existing repository into submodules
+
+```sh
+# split the "main repo"
+git subtree split -P path -b <branch>
+
+# Create your repository, and get git url
+
+# add remote for branch
+git remote add submodule <url>
+
+# push the submodule
+git push -u submodule <branch>:master
+
+# remove path
+git rm -r path
+
+# Stage and commit changes
+git add -A
+git commit -m 'Remove <path> for submodule replacement'
+
+# add the submodule 
+git submodule add <url> <path>
+
+# and once your submodule is added commit the .gitmodules file 
+```
