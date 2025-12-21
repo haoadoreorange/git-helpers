@@ -20,7 +20,7 @@ for file in "$INSTALL_DIR"/hooks/*; do
     if [ -f "$file" ]; then
         if [ ! -f "$git_hooks/$(basename "$file")" ]; then
             printf "${GREEN}Softlinking git hook '%s' to %s${NC}\n" "$(basename "$file")" "$git_hooks"
-            chmod +x "$file"
+            chmod u+x "$file"
             sudo ln -s "$file" "$git_hooks"/
         else
             printf "${RED}ERROR: git hook '%s' already exists in %s${NC}\n" "$(basename "$file")" "$git_hooks"
@@ -33,7 +33,7 @@ local_bin="$HOME"/.local/bin
 mkdir -p "$local_bin"
 if [ ! -f "$local_bin"/git-sig ]; then
     printf "${GREEN}Softlinking command git-sig to %s${NC}\n" "$local_bin"
-    chmod +x "$INSTALL_DIR"/commands/git-sig.sh
+    chmod u+x "$INSTALL_DIR"/commands/git-sig.sh
     ln -s "$INSTALL_DIR"/commands/git-sig.sh "$local_bin"/git-sig
     echo "You might need to add ~/.local/bin/ to PATH to use it"
 else
