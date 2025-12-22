@@ -7,8 +7,8 @@ if [ -f .sig ]; then
 
     sig_tmp=.sig.tmp
     # Remove space around = & source to get the required name & email
-    sed 's/ *= */=/g' .sig >"$sig_tmp"
-    . ./"$sig_tmp"
+    sed 's/ *= */=/g' .sig > "$sig_tmp"
+    . "$sig_tmp"
     rm "$sig_tmp"
     if [ -n "${name-}" ] && [ "$GIT_AUTHOR_NAME" != "$name" ]; then
         echo "Required author name for this repo: $name"
@@ -20,7 +20,7 @@ if [ -f .sig ]; then
         git config --global user.email "$email"
         wrong=true
     fi
-    if [ "${wrong-}" = "true" ]; then
+    if [ "${wrong-}" = 'true' ]; then
         printf "${RED}Configured git signature accordingly, please re-commit${NC}\n"
         exit 1
     fi

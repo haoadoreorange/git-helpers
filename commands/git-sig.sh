@@ -5,23 +5,24 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
+HOME=/home/"$(whoami)"
 
 # configure git signature
 git_sig() {
     name="${1:?}"
     email="${2:?}"
     # if init flag = true then add .sig file for commit hook
-    if [ "${init-}" = "true" ]; then
+    if [ "${init-}" = 'true' ]; then
         if [ -d .git ]; then
             echo "name='$name'" >.sig
             echo "email='$email'" >>.sig
             printf "${GREEN}Created .sig file${NC}\n"
             touch .gitignore
             while read -r line; do
-                [ "$line" = ".sig" ] && matched=true && break
+                [ "$line" = '.sig' ] && matched=true && break
             done <.gitignore
-            if [ "${matched-}" != "true" ]; then
-                printf "\n.sig" >>.gitignore
+            if [ "${matched-}" != 'true' ]; then
+                printf "\n.sig" >> .gitignore
                 printf "${GREEN}Added .sig file to .gitignore${NC}\n"
             fi
         else
@@ -32,7 +33,7 @@ git_sig() {
     git config --global user.email "$email"
 }
 
-if [ "${1-}" = "--init" ]; then
+if [ "${1-}" = '--init' ]; then
     init=true
     shift
 elif [ -d .git ] && [ ! -f .sig ]; then
@@ -51,8 +52,8 @@ if [ -z "${2-}" ]; then
         printf "${RED}%s profile not found in .sig.profile${NC}\n" "$profile"
         exit 1
     fi
-    echo "$sig_tmp_content" >"$sig_tmp"
-    . ./"$sig_tmp"
+    echo "$sig_tmp_content" > "$sig_tmp"
+    . "$sig_tmp"
     rm "$sig_tmp"
 else
     name="$1"

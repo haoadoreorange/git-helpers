@@ -4,6 +4,7 @@ set -eu
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
+HOME=/home/"$(whoami)"
 INSTALL_DIR="$(realpath "${1:-$HOME/.git-helpers}")"
 
 if [ ! -d "$INSTALL_DIR"/hooks ]; then
@@ -35,10 +36,10 @@ if [ ! -f "$local_bin"/git-sig ]; then
     printf "${GREEN}Softlinking command git-sig to %s${NC}\n" "$local_bin"
     chmod u+x "$INSTALL_DIR"/commands/git-sig.sh
     ln -s "$INSTALL_DIR"/commands/git-sig.sh "$local_bin"/git-sig
-    echo "You might need to add ~/.local/bin/ to PATH to use it"
+    echo 'You might need to add ~/.local/bin/ to PATH to use it'
 else
     printf "${RED}ERROR: git-sig already exists in %s${NC}\n" "$local_bin"
     failed=true
 fi
 
-[ "${failed-}" != "true" ] && printf "${GREEN}git-helpers hooks & commands installed succesfully${NC}\n"
+[ "${failed-}" != 'true' ] && printf "${GREEN}git-helpers hooks & commands installed succesfully${NC}\n"
