@@ -1,0 +1,80 @@
+# My collection of git hooks and commands
+
+Some are just plain git command, some are script, found in `commands/`
+
+### Install
+
+`curl -L https://raw.githubusercontent.com/haoadoreorange/git-helpers/main/install.sh | sh`
+
+### hooks
+
+`commit-msg`: hook from [git-good-commit](https://github.com/tommarshall/git-good-commit).
+
+### commands
+
+##### Changing quickly between different git signatures
+
+`commands/git-sigc.sh`
+
+Define a `~/.gitprofile` file.
+
+```ini
+[default]
+    name="Foo Baz"
+    email="foo@mail.com"
+
+[school]
+    name="Foo Baz"
+    email="foo@school.com"
+```
+
+then run `git sigc [--global] <profile>` (local by default) or
+`git sigc [--global] <name> <email> <profile>` to configure and save/update the profile in
+`~/.gitprofile` at the same time.
+
+##### Rewrite author signature in history to the current config. DANGER: rewrite git history, replace all `Sign-off-by` matching your old username
+
+`commands/git-sign-history.sh <old name>`
+
+##### Remove remote tags
+
+`git push origin --delete $(git tag -l)`. Pushing once should be faster than multiple times
+
+##### Remove local tags
+
+`git tag -d $(git tag -l)`
+
+##### Remove remote branches with prefix
+
+`git branch -a | grep branch-prefix | sed 's|remotes/origin/||' | xargs git push -d origin`
+
+##### Split existing repository into submodules
+
+```sh
+# split the "main repo"
+git subtree split -P path -b <branch>
+
+# add new remote
+git remote add submodule <url>
+
+# push the submodule
+git push -u submodule <branch>:master
+
+# remove path
+git rm -r path
+
+# commit changes
+git add -A
+git commit -m 'Replace <path> with submodule'
+
+# add the submodule
+git submodule add <url> <path>
+
+# commit the .gitmodules file
+```
+
+##### Remove files in history. DANGER: rewrite git history
+
+`git filter-repo --invert-paths --path-glob 'dir/*.json' --force`
+
+`--force` required if there is remote, safety measure
